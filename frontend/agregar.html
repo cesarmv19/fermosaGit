@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form id="afiliadoForm">
+        <input type="text" name="afiliado_apellido" placeholder="Apellido">
+        <br>
+        <input type="text" name="afiliado_nombre" placeholder="Nombre">
+        <br>
+        <input type="text" name="afiliado_dni" placeholder="DNI">
+        <br>
+        <input type="text" name="afiliado_domicilio" placeholder="Domicilio">
+        <br>
+        <button type="submit">Guardar</button>
+    </form>
+
+    <script>
+        document.getElementById('afiliadoForm').onsubmit = function(event) {
+            event.preventDefault();
+
+            // Crear un objeto con los datos del formulario
+            const jsonData = {
+                afiliado_apellido: this.afiliado_apellido.value,
+                afiliado_nombre: this.afiliado_nombre.value,
+                afiliado_dni: this.afiliado_dni.value,
+                afiliado_domicilio: this.afiliado_domicilio.value
+            };
+
+            // Enviar los datos como JSON
+            fetch('../index.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                // Redireccionar si la respuesta es exitosa
+                alert("agregado correctamente");
+                self.location = 'index.html'; // Cambia 'success_page.html' por la URL deseada
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        };
+    </script>
+</body>
+</html>
